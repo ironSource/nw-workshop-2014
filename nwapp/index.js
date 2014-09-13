@@ -16,16 +16,9 @@ log.setLevel(config.logLevel) // that...
 log.info('bootstrapping done.')
 
 // Get the current window
-// var win = gui.Window.get()
+var win = gui.Window.get()
 
-// $(function () {
+$(function () {
 
-// 	$('#closeApp').click(function () {
-// 		gui.App.quit()
-// 	})
 
-// 	$('#minApp').click(function () {
-// 		win.minimize()
-// 	})
-
-// })
+})
