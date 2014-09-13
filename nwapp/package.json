@@ -1,0 +1,37 @@
+{
+  "author": "My Name",
+  "name": "nw-ninja-app",
+  "description": "Package Description",
+  "version": "0.0.1",
+  "homepage": "",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "main": "index.html",
+  "node-main": "nodeMain.js",
+  "single-instance": true,
+  "chromium-args": "",
+  "dom_storage_quota": 1024,
+  "window": {
+    "//": "screen settings",
+    "title": "AV app",
+    "icon": "link.png",
+    "toolbar": true,
+    "frame": true,
+    "position": "center",
+    "width": 1024,
+    "height": 768,
+    "min_width": 1024,
+    "min_height": 768,
+    "resizable": true,
+    "always-on-top": false,
+    "fullscreen": false
+  },
+  "dependencies": {
+    "minimist": "^1.1.0",
+    "rc": "^0.5.0",
+    "yalla": "0.0.3"
+  }
+}
