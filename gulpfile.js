@@ -18,8 +18,9 @@ gulp.task('build', ['cleanModules'], function(cb) {
 
 gulp.task('run', function(cb) {
 
-	if (!ninjaConfig.debug)
+	if (!ninjaConfig.debug) {
 		ninjaConfig.argv.push('--debug=true')
+	}
 
 	var nw = new NwBuilder(ninjaConfig)
 

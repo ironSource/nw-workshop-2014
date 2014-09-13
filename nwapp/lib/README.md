@@ -1,1 +1,0 @@
-node modules, js folder is used for pure js browser code.

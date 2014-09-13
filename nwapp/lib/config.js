@@ -7,7 +7,6 @@ var LogLevel = require('yalla').LogLevel
 var defaults = {		
 	debug: false,
 	appName: packageJson.name,
-	logLevel: LogLevel.INFO,
 	templatePath: 'template',
 	height: packageJson.window.min_height,
 	width: packageJson.window.min_width
