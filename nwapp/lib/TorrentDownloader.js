@@ -15,7 +15,7 @@ function TorrentDownloader(target, downloadPath) {
 }
 
 TorrentDownloader.prototype._startImpl = function(callback) {
-	readTorrent(this.target, _.bind(this._onTorrentRead, this))	
+	readTorrent(this.target, _.bind(this._onTorrentRead, this))
 }
 
 TorrentDownloader.prototype._onTorrentRead = function(err, torrent) {
@@ -27,14 +27,32 @@ TorrentDownloader.prototype._onTorrentRead = function(err, torrent) {
 		log.silly(inspect(torrent))
 
 	var engine = this.engine = torrentStream(torrent, { path: this._downloadPath })
-	
-	engine.on('ready', _.bind(this.emit, 'start'))
 
-	engine.swarm.on('download', function(downloaded) {
-		console.log(downloaded)
-	})
+	engine.on('ready', function() {
+                engine.files.forEach(function(file) {
+                        file.select()
+                })
+                this.emit('start')
+                reportProgress.call(this)
+        }.bind(this))
 
-	engine.swarm.on('wire', function() {
-		console.log(arguments)
-	})
+        engine.on('download', _.bind(reportProgress, this))
+
+        function reportProgress() {
+                if (torrent.length && torrent.pieceLength) {
+                        var bytesDownloaded = 0
+                        var pieceLength = torrent.pieceLength
+                        var pieceRemainder = (torrent.length % pieceLength) || pieceLength
+                        for (var i = 0; i < torrent.pieces.length; i++) {
+                                if (engine.bitfield.get(i)) {
+                                        bytesDownloaded += (i === torrent.pieces.length - 1) ? pieceRemainder : pieceLength
+                                }
+                        }
+                        var pct = bytesDownloaded / torrent.length * 100
+                        this.emit('progress', pct)
+                        if (bytesDownloaded === torrent.length) {
+                                this.emit('complete')
+                        }
+                }
+        }
 }

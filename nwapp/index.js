@@ -21,7 +21,7 @@ if (config.logLevel) {
 } else if (config.debug) {
 	log.setLevel(LogLevel.DEBUG)
 }
-	
+
 log.info('bootstrapping done.')
 
 process.on('uncaughtException', function (err) {
@@ -33,7 +33,7 @@ var win = gui.Window.get()
 
 $(function () {
 
-	var downloader = window.downloader = new TorrentDownloader('http://torrent.fedoraproject.org/torrents/Fedora-20-x86_64-DVD.torrent', '/tmp')	
+	var downloader = window.downloader = new TorrentDownloader('http://torrent.fedoraproject.org/torrents/Fedora-20-x86_64-DVD.torrent', '/tmp')
 
 	downloader.on('start', function() {
 		log.info('download started...')
@@ -43,6 +43,9 @@ $(function () {
 		log.info('file length is %s', humanize.filesize(info.length))
 	})
 
+        downloader.on('progress', function(pct) {
+                log.info('progress: ' + pct + '%')
+        })
+
 	downloader.start()
 })
-
