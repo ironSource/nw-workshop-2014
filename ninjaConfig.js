@@ -6,7 +6,7 @@ var rc = require('rc')
 module.exports = rc('nw-ninja', {
 	appDir: './nwapp',
 	files: './nwapp/**/**', // use the glob format
-    platforms: [ 'osx', 'win' ],
+    platforms: [ 'osx', 'win', 'linux64' ],
     buildDir: './dist',
     buildType: 'versioned',
     version: 'v0.10.2',
