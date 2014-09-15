@@ -7,6 +7,14 @@ node-webkit starter project for ninjas
 git clone https://github.com/kessler/nw-ninja
 ```
 
+### Project setup:
+Make sure you have the following:
+gulp `npm install gulp -g`
+bower `npm install gulp -g`
+
+run `npm install` in the root folder + nwapp folder
+run `bower install` in nwapp folder
+
 ### develop:
 ```
 	gulp run

@@ -4,19 +4,39 @@ html, body {
   width: 100%;
   height: 100%; }
 
-.flex-center, body header, body footer, body .download-form, body .downloading {
+.flex-center, .flex-column-center, body #download_form, body #download_info, body header, body footer, body #download_info .progress .bar, body #download_info .progress .percent {
   display: flex;
   justify-content: center;
   align-items: center; }
 
+.flex-column-center, body #download_form, body #download_info {
+  flex-direction: column; }
+
 body {
-  background: #efefef;
+  background: #897962 url(../img/battle_droid.png) no-repeat bottom 50px right;
+  background-size: 200px;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-  color: #333333;
-  position: relative; }
+  color: #ffffff;
+  position: relative;
+  /** Global rules **/
+  /** **/ }
+  body button {
+    background: #00626b;
+    color: #ffffff;
+    border: none;
+    font-size: 18px;
+    padding: 10px 20px; }
+  body input {
+    width: 80%;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px 0;
+    font-size: 16px;
+    outline: none;
+    color: #402d1c; }
   body header, body footer {
-    background: rgba(0, 0, 0, 0.1);
+    background: #402d1c;
     width: 100%; }
   body header {
     font-size: 20px;
@@ -26,5 +46,40 @@ body {
     bottom: 0;
     font-size: 12px;
     height: 50px; }
-  body .downloading {
+  body #download_form, body #download_info {
+    height: calc(100% - 80px - 50px - 20px);
+    justify-content: flex-start;
+    padding: 10px; }
+  body #download_form #download_btn {
+    background: #00626b url(../img/play.svg) no-repeat left 10px center;
+    background-size: 25px;
+    padding: 10px 20px 10px 50px; }
+  body #download_info {
     display: none; }
+    body #download_info .progress {
+      width: 70%;
+      height: 30px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+      margin: 10px; }
+      body #download_info .progress .bar, body #download_info .progress .percent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%; }
+      body #download_info .progress .bar {
+        width: 0;
+        background: green; }
+  body ul.filelist, body #filelist_toggle {
+    width: 70%; }
+  body ul.filelist {
+    display: none;
+    list-style: none; }
+    body ul.filelist li {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px; }

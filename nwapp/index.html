@@ -15,18 +15,25 @@
     Download Droid
 </header>
 
-<form id="download_form">
-    <input type="text" placeholder="Url or magnet link" id="download-link">
-    <button type="submit">Get it!</button>
-</form>
+<div id="download_form">
+    <input type="text" placeholder="Torrent URL or magnet link" id="download_link"/>
+    <input type="text" placeholder="Target folder (/tmp)" id="target_folder"/>
+    <button id="download_btn">Get it!</button>
+</div>
 
-<div class="downloading">
-    <div id="console"></div>
+<div id="download_info">
+    <div id="download_status">Download info</div>
     <div class="progress">
-        <div class="bar">
-            <span class="percent">0%</span>
-        </div>
+        <div class="bar"></div>
+        <div class="percent">0%</div>
     </div>
+
+    <div id="filelist_toggle">
+        <span class="label">+ Show file list</span>
+        (<span class="total_files">0</span>)
+    </div>
+    <ul class="filelist"></ul>
+
     <button id="stop_download">Stop</button>
 </div>
 

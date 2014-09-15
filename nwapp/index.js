@@ -30,28 +30,65 @@ process.on('uncaughtException', function (err) {
 
 // Get the current window
 var win = gui.Window.get();
-var downloader;
+var downloader, download_form, download_info;
 
 $(function () {
-    $('#download_form').on('submit', function () {
-        downloader = new TorrentDownloader('http://torrent.fedoraproject.org/torrents/Fedora-20-x86_64-DVD.torrent', '/tmp');
+    download_form = $('#download_form');
+    download_info = $('#download_info');
+    var totalLength;
+
+    $('#download_btn', download_form).click(function () {
+        var downloadLink = $('#download_link').val();
+        if(!downloadLink) {
+            downloadLink = 'http://torrent.fedoraproject.org/torrents/Fedora-20-x86_64-DVD.torrent';
+        }
+
+        var targetFolder = $('#target_folder').val();
+        if(!targetFolder) {
+            targetFolder = '/tmp';
+        }
+
+        downloader = new TorrentDownloader(downloadLink, targetFolder);
+
+        $('#download_status').text('Starting download...');
 
         downloader.on('start', function () {
-            log.info('download started...')
+            $('#download_status').text('Downloading...');
         });
 
         downloader.on('info', function (info) {
-            log.info('file length is %s', humanize.filesize(info.length))
+            //
+            totalLength = info.length;
+
+            $('#filelist_toggle .total_files').text(info.files.length);
+            $(info.files).each(function (index, file) {
+                var li = $('<li />').text(humanize.filesize(file.length) + ' // ' + file.path);
+                $('.filelist').append(li);
+            });
         });
 
         downloader.on('progress', function (pct) {
-            log.info('progress: ' + pct + '%')
+            //log.info('progress: ' + pct + '%');
+            $('.progress .bar').css('width', pct + '%');
+            $('.progress .percent').text((Math.round(pct * 100) / 100) + '%' + ' | ' + humanize.filesize(downloadSize * pct) + '/' + humanize.filesize(downloadSize));
         });
+
         downloader.start();
+
+        download_form.hide();
+        download_info.css('display', 'flex');
     });
 
-    $('#stop_download').click(function () {
+    $('#stop_download', download_info).click(function () {
         downloader.stop();
         downloader = null;
+        download_info.hide();
+        download_form.css('display', 'flex');
+    });
+
+    $('#filelist_toggle').click(function () {
+        $('.filelist').toggle();
+
+        $('#filelist_toggle .label').text($('.filelist').is(':visible') ? '- Hide file list' : '+ Show file list')
     });
 });
