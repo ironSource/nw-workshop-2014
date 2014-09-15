@@ -187,6 +187,10 @@ body {
         width: 90%;
     }
 
+    #filelist_toggle {
+        cursor: pointer;
+    }
+
     ul.filelist {
         display: none;
         list-style: none;

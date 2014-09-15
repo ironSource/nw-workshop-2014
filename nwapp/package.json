@@ -1,9 +1,8 @@
 {
-  "author": "My Name",
-  "name": "nw-ninja-app",
-  "description": "Package Description",
+  "author": "Iron Source",
+  "name": "Download Droid",
+  "description": "Simple torrent tracker based on node webkit",
   "version": "0.0.1",
-  "homepage": "",
   "private": true,
   "repository": {
     "type": "git",
@@ -15,9 +14,8 @@
   "chromium-args": "",
   "dom_storage_quota": 1024,
   "window": {
-    "//": "screen settings",
-    "title": "AV app",
-    "icon": "link.png",
+    "title": "Download Droid",
+    "icon": "img/icon.png",
     "toolbar": true,
     "frame": true,
     "position": "center",
@@ -26,7 +24,6 @@
     "min_width": 500,
     "min_height": 350,
     "resizable": true,
-    "always-on-top": false,
     "fullscreen": false
   },
   "dependencies": {

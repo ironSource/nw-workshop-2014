@@ -129,6 +129,8 @@ body {
       background-image: url(../img/play.svg); }
   body ul.filelist, body #filelist_toggle {
     width: 90%; }
+  body #filelist_toggle {
+    cursor: pointer; }
   body ul.filelist {
     display: none;
     list-style: none; }

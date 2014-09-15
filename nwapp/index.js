@@ -32,17 +32,13 @@ process.on('uncaughtException', function (err) {
 // Get the current window
 var win = gui.Window.get();
 var downloader,
-    download_form,
-    download_info,
     totalDownloadLength,
     tray,
     trayMenu,
     trayProgressLabel = new gui.MenuItem({ label: 'No active download' }),
     trayToggleDownload = new gui.MenuItem({ label: 'Pause Download', click: pauseDownload });
 
-function submitDownload() {
-    totalDownloadLength = 0;
-
+function startDownload() {
     var downloadLink = $('#download_link').val();
     if (!downloadLink) {
         downloadLink = 'http://torrent.fedoraproject.org/torrents/Fedora-20-x86_64-DVD.torrent';
@@ -56,39 +52,81 @@ function submitDownload() {
     downloader = new TorrentDownloader(downloadLink, targetFolder);
     trayMenu.append(trayToggleDownload);
 
-    $('#download_status').text('Starting download...');
-    trayProgressLabel.label = 'Starting download...';
+    // New download started
+    $('#download_status').text('Initializing download...');
+    $('.progress .percent').html('&infin;');
 
+    // Update the tray menu status
+    trayProgressLabel.label = 'Initializing download...';
+
+
+    // Detect when the download starts
     downloader.on('start', function () {
         $('#download_status').text('Downloading...');
+
+        // Update the tray menu status
         trayProgressLabel.label = 'Download Started!';
     });
 
     downloader.on('info', function (info) {
-        //
+        // Store the total download size for future use
         totalDownloadLength = info.length;
 
+        // Count the number of total files in the download
         $('#filelist_toggle .total_files').text(info.files.length);
-        $(".filelist").empty();
+
+        // Populate the files list into the ul element
         $(info.files).each(function (index, file) {
             var li = $('<li />').text(humanize.filesize(file.length) + ' // ' + file.path);
             $('.filelist').append(li);
         });
     });
 
-    downloader.on('progress', function (pct) {
-        //log.info('progress: ' + pct + '%');
-        $('.progress .bar').css('width', pct + '%');
+    // update the progress in the ui elements
+    downloader.on('progress', function (percent) {
+        // Gui progress bar
+        $('.progress .bar').css('width', percent + '%');
 
-        var sizeMessage = humanize.filesize(totalDownloadLength * pct / 100) + ' / ' + humanize.filesize(totalDownloadLength);
-        $('.progress .percent').text((Math.round(pct * 100) / 100) + '%' + ' | ' + sizeMessage);
+        // Gui message
+        var sizeMessage = humanize.filesize(totalDownloadLength * percent / 100) + ' / ' + humanize.filesize(totalDownloadLength);
+        $('.progress .percent').text((Math.round(percent * 100) / 100) + '%' + ' | ' + sizeMessage);
+
+        // Tray menu progress display
         trayProgressLabel.label = $('.progress .percent').text();
+
+        // System icon progress and label
+        win.setBadgeLabel(Math.round(percent) + '%');
+        win.setProgressBar(percent / 100);
     });
 
     downloader.start();
 
-    download_form.hide();
-    download_info.css('display', 'flex');
+    // Change to the download info screen
+    $('#download_form').hide();
+    $('#download_info').css('display', 'flex');
+}
+
+function stopDownload() {
+    // Stop the download
+    downloader.stop();
+    downloader = null;
+
+    // Change the screen
+    $('#download_info').hide();
+    $('#download_form').css('display', 'flex');
+
+    // Reset contents for next download
+    totalDownloadLength = 0;
+    $(".filelist").empty();
+    $('.progress .bar').css('width', 0);
+    $('.progress .percent').html('&infin;');
+
+    // Reset the tray menu items
+    trayProgressLabel.label = 'No active download';
+
+    // Reset the icon
+    win.setBadgeLabel('');
+    win.setProgressBar(0);
 }
 
 function pauseDownload() {
@@ -97,6 +135,8 @@ function pauseDownload() {
         trayToggleDownload.label = 'Resume Download';
         trayToggleDownload.click = resumeDownload;
     }
+
+    // Replace the buttons
     $('#pause_download').hide();
     $('#resume_download').show();
 }
@@ -107,6 +147,8 @@ function resumeDownload() {
         trayToggleDownload.label = 'Pause Download';
         trayToggleDownload.click = pauseDownload;
     }
+
+    // Replace the buttons
     $('#pause_download').show();
     $('#resume_download').hide();
 }
@@ -119,7 +161,7 @@ function setupTrayMenu() {
     trayMenu = new gui.Menu();
     trayMenu.append(trayProgressLabel);
     trayMenu.append(new gui.MenuItem({ type: 'separator' }));
-    trayMenu.append(new gui.MenuItem({ label: 'Exit', click: function() {
+    trayMenu.append(new gui.MenuItem({ label: 'Exit', click: function () {
         gui.App.quit();
     }}));
     tray.menu = trayMenu;
@@ -146,14 +188,8 @@ function setupWindowActions() {
 
 function dragAndDropSupport() {
     // prevent default behavior from changing page on dropped file
-    window.ondragover = function (e) {
-        e.preventDefault();
-        return false;
-    };
-    window.ondrop = function (e) {
-        e.preventDefault();
-        return false;
-    };
+    window.ondragover = function (e) {e.preventDefault(); return false;};
+    window.ondrop = function (e) {e.preventDefault(); return false;};
 
     var holder = document.getElementById('download_form');
     holder.ondragover = function (e) {
@@ -169,39 +205,37 @@ function dragAndDropSupport() {
         this.className = '';
         $('#download_link').val(e.dataTransfer.files[0].path);
         if (path.extname($('#download_link').val()) == '.torrent') {
-            submitDownload();
+            startDownload();
         }
         return false;
     };
 }
 
+function trayProgressAndBadge() {
+    // Reset the tray progress when we start up the app
+    win.setBadgeLabel('');
+    win.setProgressBar(0);
+}
+
 $(function () {
-    download_form = $('#download_form');
-    download_info = $('#download_info');
-
-    $('#download_btn', download_form).click(submitDownload);
-
-    $('#stop_download', download_info).click(function () {
-        downloader.stop();
-        downloader = null;
-        download_info.hide();
-        download_form.css('display', 'flex');
-    });
-
-    $('#filelist_toggle').click(function () {
-        var filelistUl = $('.filelist');
-        filelistUl.toggle();
-        $('#filelist_toggle .label').text(filelistUl.is(':visible') ? '- Hide file list' : '+ Show file list')
-    });
-
+    // Download controls
+    $('#download_btn').click(startDownload);
+    $('#stop_download').click(stopDownload);
     $('#pause_download').click(pauseDownload);
     $('#resume_download').click(resumeDownload);
 
+    // Toggle the filelist view
+    $('#filelist_toggle').click(function() {
+        var filelistUl = $('.filelist');
+        filelistUl.toggle();
+        $('#filelist_toggle .label').text(filelistUl.is(':visible') ? '- Hide file list' : '+ Show file list');
+    });
 
     /**
      * Node Webkit cool stuff!
      */
-    setupTrayMenu();
+    trayProgressAndBadge();
     setupWindowActions();
     dragAndDropSupport();
+    setupTrayMenu();
 });
