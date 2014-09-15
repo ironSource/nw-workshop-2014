@@ -56,3 +56,26 @@ TorrentDownloader.prototype._onTorrentRead = function (err, torrent) {
         }
     }
 }
+
+TorrentDownloader.prototype._stopImpl = function() {
+    if (this.engine) {
+        this.engine.destroy(function() {
+            this.engine = null
+            this.emit('stop')
+        }.bind(this))
+    }
+}
+
+TorrentDownloader.prototype._pauseImpl = function() {
+    if (this.engine) {
+        this.engine.swarm.pause()
+        this.emit('pause')
+    }
+}
+
+TorrentDownloader.prototype._resumeImpl = function() {
+    if (this.engine) {
+        this.engine.swarm.resume()
+        this.emit('resume')
+    }
+}
