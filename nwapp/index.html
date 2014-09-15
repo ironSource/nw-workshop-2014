@@ -13,6 +13,12 @@
 <body>
 <header>
     Download Droid
+    <div class="window-controls">
+        <div id="minimize"></div>
+        <div id="maximize"></div>
+        <div id="unmaximize"></div>
+        <div id="close"></div>
+    </div>
 </header>
 
 <div id="download_form">
@@ -34,7 +40,11 @@
     </div>
     <ul class="filelist"></ul>
 
-    <button id="stop_download">Stop</button>
+    <div class="controls">
+        <button id="stop_download">Stop</button>
+        <button id="pause_download">Pause</button>
+        <button id="resume_download">Resume</button>
+    </div>
 </div>
 
 <footer>&copy; NodeConf.iS 2014</footer>

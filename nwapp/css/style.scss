@@ -85,7 +85,7 @@ body {
         display: none;
 
         .progress {
-            width: 70%;
+            width: 90%;
             height: 30px;
             background: rgba(0, 0, 0, 0.1);
             border-radius: 5px;
@@ -106,10 +106,16 @@ body {
                 background: green;
             }
         }
+        .controls {
+            @extend .flex-center;
+            #resume_download {
+                display: none;
+            }
+        }
     }
 
     ul.filelist, #filelist_toggle {
-        width: 70%;
+        width: 90%;
     }
 
     ul.filelist {
