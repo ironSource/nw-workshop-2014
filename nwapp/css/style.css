@@ -4,6 +4,9 @@ html, body {
   width: 100%;
   height: 100%; }
 
+a, a:link {
+  color: inherit; }
+
 .flex-center, .flex-column-center, body #download_form, body #download_info, body header, body footer, body #download_form .drop_torrent, body #download_info .progress .bar, body #download_info .progress .percent, body #download_info .controls {
   display: flex;
   justify-content: center;
@@ -15,7 +18,7 @@ html, body {
 body {
   background: #897962 url(../img/battle_droid.png) no-repeat bottom 50px right;
   background-size: 200px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: #ffffff;
   position: relative;
@@ -69,6 +72,8 @@ body {
     bottom: 0;
     font-size: 12px;
     height: 50px; }
+    body footer div {
+      margin: 0 3px; }
   body #download_form, body #download_info {
     height: calc(100% - 80px - 50px - 20px);
     justify-content: flex-start;

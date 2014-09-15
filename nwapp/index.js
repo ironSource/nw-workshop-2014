@@ -220,6 +220,10 @@ function trayProgressAndBadge() {
     win.setProgressBar(0);
 }
 
+function openInBrowser(link) {
+    gui.Shell.openExternal(link);
+}
+
 $(function () {
     // Download controls
     $('#download_btn').click(startDownload);

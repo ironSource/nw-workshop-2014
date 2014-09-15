@@ -9,6 +9,10 @@ html, body {
     height: 100%;
 }
 
+a, a:link {
+    color: inherit;
+}
+
 .flex-center {
     display: flex;
     justify-content: center;
@@ -23,7 +27,7 @@ html, body {
 body {
     background: $fossil url(../img/battle_droid.png) no-repeat bottom 50px right;
     background-size: 200px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #ffffff;
     position: relative;
@@ -95,6 +99,9 @@ body {
         bottom: 0;
         font-size: 12px;
         height: 50px;
+        div {
+            margin: 0 3px;
+        }
     }
 
     #download_form, #download_info {
