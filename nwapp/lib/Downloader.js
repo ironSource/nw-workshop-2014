@@ -20,12 +20,16 @@ function Downloader(target, downloadPath) {
 }
 
 Downloader.prototype.start = function () {
-	var self = this
+    var self = this
 
-	mkdirp(this._downloadPath, function(err) {		
-		if (err)
-			return self.emit('error', err)
+    mkdirp(this._downloadPath, function(err) {
+        if (err)
+            return self.emit('error', err)
 
-		self._startImpl()		
-	})
+        self._startImpl()
+    })
+}
+
+Downloader.prototype.stop = function () {
+    var self = this;
 }
