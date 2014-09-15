@@ -141,22 +141,10 @@ function setupTrayMenu() {
 }
 
 function setupWindowActions() {
-    $('#minimize').click(function () {
-        win.minimize()
-    });
-    $('#maximize').click(function () {
-        $(this).hide();
-        $('#unmaximize').css('display', 'inline-block');
-        win.maximize()
-    });
-    $('#unmaximize').click(function () {
-        $(this).hide();
-        $('#maximize').css('display', 'inline-block');
-        win.unmaximize();
-    });
-    $('#close').click(function () {
-        gui.App.quit();
-    });
+    /**
+     * Replace the native window actions with custom ones
+     * maximize, unmaximize, minimize and close
+     */
 }
 
 function dragAndDropSupport() {
