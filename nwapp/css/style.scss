@@ -1,6 +1,6 @@
 $mahogany: #402D1C;
 $fossil: #897962;
-$sea: #00626B;
+$sea: #004852;
 
 html, body {
     padding: 0;
@@ -34,7 +34,6 @@ body {
         color: #ffffff;
         border: none;
         font-size: 18px;
-        padding: 10px 20px;
     }
 
     input {
@@ -57,6 +56,38 @@ body {
     header {
         font-size: 20px;
         height: 80px;
+
+        .window-controls {
+            position: fixed;
+            top: 0;
+            right: 10px;
+            font-size: 0;
+            div {
+                background: rgba(255,255,255,0.5) no-repeat center center;
+                background-size: 40%;
+                width: 30px;
+                height: 20px;
+                display: inline-block;
+                opacity: 0.5;
+                &:hover {
+                    background-color: rgba(255,255,255,0.3);
+                    opacity: 0.9;
+                }
+                &#minimize {
+                    background-image: url(../img/minus.svg);
+                }
+                &#maximize {
+                    background-image: url(../img/expand.svg);
+                }
+                &#unmaximize {
+                    background-image: url(../img/contract.svg);
+                    display: none;
+                }
+                &#close {
+                    background-image: url(../img/close.svg);
+                }
+            }
+        }
     }
 
     footer {
@@ -74,10 +105,33 @@ body {
     }
 
     #download_form {
+        position: relative;
         #download_btn {
             background: $sea url(../img/play.svg) no-repeat left 10px center;
             background-size: 25px;
             padding: 10px 20px 10px 50px;
+            &:hover {
+                background-color: #003A44;
+            }
+        }
+        &.file_hover {
+            .drop_torrent {
+                display: flex;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.85);
+            }
+        }
+        .drop_torrent {
+            @extend .flex-center;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 20px;
+            border: rgba(255,255,255,0.5) 2px dashed;
+            box-sizing: border-box;
         }
     }
 
@@ -108,8 +162,23 @@ body {
         }
         .controls {
             @extend .flex-center;
+            button {
+                background: $sea no-repeat left 10px center;
+                background-size: 25px;
+                padding: 10px 20px 10px 50px;
+                &:hover {
+                    background-color: #003A44;
+                }
+            }
+            #stop_download {
+                background-image: url(../img/stop.svg);
+            }
+            #pause_download {
+                background-image: url(../img/pause.svg);
+            }
             #resume_download {
                 display: none;
+                background-image: url(../img/play.svg);
             }
         }
     }

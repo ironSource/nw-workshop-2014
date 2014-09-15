@@ -4,7 +4,7 @@ html, body {
   width: 100%;
   height: 100%; }
 
-.flex-center, .flex-column-center, body #download_form, body #download_info, body header, body footer, body #download_info .progress .bar, body #download_info .progress .percent, body #download_info .controls {
+.flex-center, .flex-column-center, body #download_form, body #download_info, body header, body footer, body #download_form .drop_torrent, body #download_info .progress .bar, body #download_info .progress .percent, body #download_info .controls {
   display: flex;
   justify-content: center;
   align-items: center; }
@@ -22,11 +22,10 @@ body {
   /** Global rules **/
   /** **/ }
   body button {
-    background: #00626b;
+    background: #004852;
     color: #ffffff;
     border: none;
-    font-size: 18px;
-    padding: 10px 20px; }
+    font-size: 18px; }
   body input {
     width: 80%;
     border: none;
@@ -41,6 +40,30 @@ body {
   body header {
     font-size: 20px;
     height: 80px; }
+    body header .window-controls {
+      position: fixed;
+      top: 0;
+      right: 10px;
+      font-size: 0; }
+      body header .window-controls div {
+        background: rgba(255, 255, 255, 0.5) no-repeat center center;
+        background-size: 40%;
+        width: 30px;
+        height: 20px;
+        display: inline-block;
+        opacity: 0.5; }
+        body header .window-controls div:hover {
+          background-color: rgba(255, 255, 255, 0.3);
+          opacity: 0.9; }
+        body header .window-controls div#minimize {
+          background-image: url(../img/minus.svg); }
+        body header .window-controls div#maximize {
+          background-image: url(../img/expand.svg); }
+        body header .window-controls div#unmaximize {
+          background-image: url(../img/contract.svg);
+          display: none; }
+        body header .window-controls div#close {
+          background-image: url(../img/close.svg); }
   body footer {
     position: absolute;
     bottom: 0;
@@ -50,10 +73,28 @@ body {
     height: calc(100% - 80px - 50px - 20px);
     justify-content: flex-start;
     padding: 10px; }
-  body #download_form #download_btn {
-    background: #00626b url(../img/play.svg) no-repeat left 10px center;
-    background-size: 25px;
-    padding: 10px 20px 10px 50px; }
+  body #download_form {
+    position: relative; }
+    body #download_form #download_btn {
+      background: #004852 url(../img/play.svg) no-repeat left 10px center;
+      background-size: 25px;
+      padding: 10px 20px 10px 50px; }
+      body #download_form #download_btn:hover {
+        background-color: #003A44; }
+    body #download_form.file_hover .drop_torrent {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85); }
+    body #download_form .drop_torrent {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 20px;
+      border: rgba(255, 255, 255, 0.5) 2px dashed;
+      box-sizing: border-box; }
   body #download_info {
     display: none; }
     body #download_info .progress {
@@ -73,8 +114,19 @@ body {
       body #download_info .progress .bar {
         width: 0;
         background: green; }
+    body #download_info .controls button {
+      background: #004852 no-repeat left 10px center;
+      background-size: 25px;
+      padding: 10px 20px 10px 50px; }
+      body #download_info .controls button:hover {
+        background-color: #003A44; }
+    body #download_info .controls #stop_download {
+      background-image: url(../img/stop.svg); }
+    body #download_info .controls #pause_download {
+      background-image: url(../img/pause.svg); }
     body #download_info .controls #resume_download {
-      display: none; }
+      display: none;
+      background-image: url(../img/play.svg); }
   body ul.filelist, body #filelist_toggle {
     width: 90%; }
   body ul.filelist {
