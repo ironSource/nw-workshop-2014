@@ -35,11 +35,7 @@ process.on('uncaughtException', function (err) {
 // Get the current window
 var win = gui.Window.get();
 var downloader,
-    totalDownloadLength,
-    tray,
-    trayMenu,
-    trayProgressLabel = new gui.MenuItem({ label: 'No active download' }),
-    trayToggleDownload = new gui.MenuItem({ label: 'Pause Download', click: pauseDownload });
+    totalDownloadLength;
 
 function startDownload() {
     var downloadLink = $('#download_link').val();
@@ -53,22 +49,14 @@ function startDownload() {
     }
 
     downloader = new TorrentDownloader(downloadLink, targetFolder);
-    trayMenu.append(trayToggleDownload);
 
     // New download started
     $('#download_status').text('Initializing download...');
     $('.progress .percent').html('&infin;');
 
-    // Update the tray menu status
-    trayProgressLabel.label = 'Initializing download...';
-
-
     // Detect when the download starts
     downloader.on('start', function () {
         $('#download_status').text('Downloading...');
-
-        // Update the tray menu status
-        trayProgressLabel.label = 'Download Started!';
     });
 
     downloader.on('info', function (info) {
@@ -93,9 +81,6 @@ function startDownload() {
         // Gui message
         var sizeMessage = humanize.filesize(totalDownloadLength * percent / 100) + ' / ' + humanize.filesize(totalDownloadLength);
         $('.progress .percent').text((Math.round(percent * 100) / 100) + '%' + ' | ' + sizeMessage);
-
-        // Tray menu progress display
-        trayProgressLabel.label = $('.progress .percent').text();
 
         // System icon progress and label
         win.setBadgeLabel(Math.round(percent) + '%');
@@ -124,9 +109,6 @@ function stopDownload() {
     $('.progress .bar').css('width', 0);
     $('.progress .percent').html('&infin;');
 
-    // Reset the tray menu items
-    trayProgressLabel.label = 'No active download';
-
     // Reset the icon
     win.setBadgeLabel('');
     win.setProgressBar(0);
@@ -135,8 +117,6 @@ function stopDownload() {
 function pauseDownload() {
     if (downloader) {
         downloader.pause();
-        trayToggleDownload.label = 'Resume Download';
-        trayToggleDownload.click = resumeDownload;
     }
 
     // Replace the buttons
@@ -147,8 +127,6 @@ function pauseDownload() {
 function resumeDownload() {
     if (downloader) {
         downloader.resume();
-        trayToggleDownload.label = 'Pause Download';
-        trayToggleDownload.click = pauseDownload;
     }
 
     // Replace the buttons
@@ -157,17 +135,9 @@ function resumeDownload() {
 }
 
 function setupTrayMenu() {
-    // Create a tray icon
-    tray = new gui.Tray({ title: 'Tray', icon: 'img/icon.png' });
-
-    // Give it a menu
-    trayMenu = new gui.Menu();
-    trayMenu.append(trayProgressLabel);
-    trayMenu.append(new gui.MenuItem({ type: 'separator' }));
-    trayMenu.append(new gui.MenuItem({ label: 'Exit', click: function () {
-        gui.App.quit();
-    }}));
-    tray.menu = trayMenu;
+    /**
+     * Create a tray instance and populate it with MenuItem
+     */
 }
 
 function setupWindowActions() {

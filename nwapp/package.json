@@ -16,7 +16,7 @@
   "window": {
     "title": "Download Droid",
     "icon": "img/icon.png",
-    "toolbar": false,
+    "toolbar": true,
     "frame": false,
     "position": "center",
     "width": 600,
