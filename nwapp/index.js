@@ -29,6 +29,9 @@ process.on('uncaughtException', function (err) {
     log.error(err)
 });
 
+/**
+ * App start
+ */
 // Get the current window
 var win = gui.Window.get();
 var downloader,
