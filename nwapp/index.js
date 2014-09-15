@@ -81,10 +81,6 @@ function startDownload() {
         // Gui message
         var sizeMessage = humanize.filesize(totalDownloadLength * percent / 100) + ' / ' + humanize.filesize(totalDownloadLength);
         $('.progress .percent').text((Math.round(percent * 100) / 100) + '%' + ' | ' + sizeMessage);
-
-        // System icon progress and label
-        win.setBadgeLabel(Math.round(percent) + '%');
-        win.setProgressBar(percent / 100);
     });
 
     downloader.start();
@@ -108,10 +104,6 @@ function stopDownload() {
     $(".filelist").empty();
     $('.progress .bar').css('width', 0);
     $('.progress .percent').html('&infin;');
-
-    // Reset the icon
-    win.setBadgeLabel('');
-    win.setProgressBar(0);
 }
 
 function pauseDownload() {
@@ -154,9 +146,10 @@ function dragAndDropSupport() {
 }
 
 function trayProgressAndBadge() {
-    // Reset the tray progress when we start up the app
-    win.setBadgeLabel('');
-    win.setProgressBar(0);
+    /**
+     * Reset the progress in the icon on startup and on download stop
+     * update the progress in the progress event
+     */
 }
 
 function openInBrowser(link) {
