@@ -160,28 +160,9 @@ function setupWindowActions() {
 }
 
 function dragAndDropSupport() {
-    // prevent default behavior from changing page on dropped file
-    window.ondragover = function (e) {e.preventDefault(); return false;};
-    window.ondrop = function (e) {e.preventDefault(); return false;};
-
-    var holder = document.getElementById('download_form');
-    holder.ondragover = function (e) {
-        this.className = 'file_hover';
-        return false;
-    };
-    holder.ondragend = function (e) {
-        this.className = '';
-        return false;
-    };
-    holder.ondrop = function (e) {
-        e.preventDefault();
-        this.className = '';
-        $('#download_link').val(e.dataTransfer.files[0].path);
-        if (path.extname($('#download_link').val()) == '.torrent') {
-            startDownload();
-        }
-        return false;
-    };
+    /**
+     * Add support for drag & drop to the application
+     */
 }
 
 function trayProgressAndBadge() {
