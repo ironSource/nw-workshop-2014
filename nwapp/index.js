@@ -72,16 +72,16 @@ function setupTrayMenu() {
 }
 
 function setupWindowActions() {
-    $('#minimize').click(function() {
+    $('#minimize').click(function () {
         win.minimize()
     });
-    $('#maximize').click(function() {
+    $('#maximize').click(function () {
         win.maximize()
     });
-    $('#unmaximize').click(function() {
+    $('#unmaximize').click(function () {
         win.unmaximize();
     });
-    $('#close').click(function() {
+    $('#close').click(function () {
         gui.App.quit();
     });
 }
@@ -92,6 +92,8 @@ $(function () {
     var totalDownloadLength;
 
     $('#download_btn', download_form).click(function () {
+        totalLength = 0;
+
         var downloadLink = $('#download_link').val();
         if (!downloadLink) {
             downloadLink = 'http://torrent.fedoraproject.org/torrents/Fedora-20-x86_64-DVD.torrent';
@@ -118,6 +120,7 @@ $(function () {
             totalDownloadLength = info.length;
 
             $('#filelist_toggle .total_files').text(info.files.length);
+            $(".filelist").empty();
             $(info.files).each(function (index, file) {
                 var li = $('<li />').text(humanize.filesize(file.length) + ' // ' + file.path);
                 $('.filelist').append(li);
@@ -127,7 +130,8 @@ $(function () {
         downloader.on('progress', function (pct) {
             //log.info('progress: ' + pct + '%');
             $('.progress .bar').css('width', pct + '%');
-            var sizeMessage = humanize.filesize(totalDownloadLength * pct) + ' / ' + humanize.filesize(totalDownloadLength);
+
+            var sizeMessage = humanize.filesize(totalDownloadLength * pct / 100) + ' / ' + humanize.filesize(totalDownloadLength);
             $('.progress .percent').text((Math.round(pct * 100) / 100) + '%' + ' | ' + sizeMessage);
             trayProgressLabel.label = $('.progress .percent').text();
         });

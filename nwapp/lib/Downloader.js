@@ -30,6 +30,14 @@ Downloader.prototype.start = function () {
     })
 }
 
-Downloader.prototype.stop = function () {
-    var self = this;
+Downloader.prototype.stop = function() {
+    this._stopImpl()
+}
+
+Downloader.prototype.pause = function() {
+    this._pauseImpl()
+}
+
+Downloader.prototype.resume = function() {
+    this._resumeImpl()
 }
