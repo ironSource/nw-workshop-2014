@@ -1,0 +1,17 @@
+{
+  "name": "nwapp",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ironSource/nw-workshop-2014",
+  "authors": [
+    "Daniel Cohen <danielc@ironsrc.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

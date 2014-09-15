@@ -44,10 +44,9 @@ $(function () {
             log.info('file length is %s', humanize.filesize(info.length))
         });
 
-        downloader.on('progress', function (pcent) {
-            log.info('progress', pcent)
+        downloader.on('progress', function (pct) {
+            log.info('progress: ' + pct + '%')
         });
-
         downloader.start();
     });
 
@@ -55,6 +54,4 @@ $(function () {
         downloader.stop();
         downloader = null;
     });
-
 });
-

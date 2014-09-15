@@ -1,0 +1,30 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%; }
+
+.flex-center, body header, body footer, body .download-form, body .downloading {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+body {
+  background: #efefef;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #333333;
+  position: relative; }
+  body header, body footer {
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%; }
+  body header {
+    font-size: 20px;
+    height: 80px; }
+  body footer {
+    position: absolute;
+    bottom: 0;
+    font-size: 12px;
+    height: 50px; }
+  body .downloading {
+    display: none; }
